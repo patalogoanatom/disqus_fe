@@ -15,19 +15,6 @@
     }
   });
 
-  chrome.tabs.query({
-    active: true,
-    currentWindow: true
-  }, function(tab) {
-    var lst;
-    Backend.getComments(getHostName(tab[0].url).host);
-    lst = Stat.data[getHostName(tab[0].url).host];
-    if (lst) {
-      $('#inputEmail').val(lst[lst.length - 1]);
-      $('#inputName').val(lst[lst.length - 2]);
-    }
-  });
-
   saveInfo = function(url) {
     var lst;
     if (Stat.cur) {
@@ -78,7 +65,13 @@
 
   $('#inputComment').on('keyup', function(e) {
     if (e.keyCode === 13) {
-      return alert('some string');
+      chrome.tabs.query({
+        active: true,
+        currentWindow: true
+      }, function(tab) {
+        saveInfo(getHostName(tab[0].url).host);
+        Backend.newComment(getHostName(tab[0].url).host, $('#inputName').val(), $('#inputEmail').val(), $('#inputComment').val());
+      });
     }
   });
 
@@ -86,9 +79,14 @@
     active: true,
     currentWindow: true
   }, function(tab) {
-    saveInfo(getHostName(tab[0].url).host);
+    var lst;
+    console.log(getHostName(tab[0].url).host);
+    Backend.getComments(getHostName(tab[0].url).host);
+    lst = Stat.data[getHostName(tab[0].url).host];
+    if (lst) {
+      $('#inputEmail').val(lst[lst.length - 1]);
+      $('#inputName').val(lst[lst.length - 2]);
+    }
   });
-
-  return;
 
 }).call(this);

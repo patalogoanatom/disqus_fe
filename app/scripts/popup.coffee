@@ -12,17 +12,6 @@ chrome.storage.sync.get 'disqus.data', (item) ->
     console.log JSON.parse(item['disqus.data'])
     Stat.data = JSON.parse(item['disqus.data'])
 
-chrome.tabs.query {
-  active: true
-  currentWindow: true
-}, (tab) ->
-	Backend.getComments(getHostName(tab[0].url).host)
-	lst = Stat.data[getHostName(tab[0].url).host]
-	if(lst)
-		$('#inputEmail').val(lst[lst.length-1])
-		$('#inputName').val(lst[lst.length-2])
-	return
-
 saveInfo = (url) ->
   if Stat.cur
   	lst = Stat.data[Stat.cur]
@@ -58,21 +47,24 @@ $('#inputName').on 'focusout', (e) ->
 		$( "#inputComment" ).attr( "disabled", "" )
 
 $('#inputComment').on 'keyup', (e) ->
-  if e.keyCode == 13
-    alert 'some string'
-	chrome.tabs.query {
-		active: true
-		currentWindow: true
-		}, (tab) ->
-			saveInfo getHostName(tab[0].url).host
-			return
-	
+	if e.keyCode == 13
+		chrome.tabs.query {
+			active: true
+			currentWindow: true
+			}, (tab) ->
+				saveInfo getHostName(tab[0].url).host
+				Backend.newComment(getHostName(tab[0].url).host, $('#inputName').val(), $('#inputEmail').val(), $('#inputComment').val())
+				return    
+  	return
+
+chrome.tabs.query {
+  active: true
+  currentWindow: true
+}, (tab) ->
+	console.log getHostName(tab[0].url).host
+	Backend.getComments(getHostName(tab[0].url).host)
+	lst = Stat.data[getHostName(tab[0].url).host]
+	if(lst)
+		$('#inputEmail').val(lst[lst.length-1])
+		$('#inputName').val(lst[lst.length-2])
 	return
-
-# chrome.storage.sync.get 'disqus.data', (item) ->
-#   if item['disqus.data']
-#     console.log "STORAGE"
-#     console.log JSON.parse(item['disqus.data'])
-#     Stat.data = JSON.parse(item['disqus.data'])
-
-# chrome.storage.sync.set {'disqus.data': JSON.stringify(Stat.data)}
