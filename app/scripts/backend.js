@@ -14,7 +14,6 @@
       hr = new XMLHttpRequest;
       hr.open('GET', urlBackend, true);
       hr.setRequestHeader('Content-type', 'application/json', true);
-      console.log(url);
       hr.onreadystatechange = function() {
         var comment, data, gravatar, i, _i, _len, _ref;
         if (hr.readyState === 4 && hr.status === 200) {

@@ -11,7 +11,6 @@ $this =
     hr = new XMLHttpRequest
     hr.open 'GET', urlBackend, true
     hr.setRequestHeader 'Content-type', 'application/json', true
-    console.log url
 
     hr.onreadystatechange = ->
       if hr.readyState == 4 and hr.status == 200
@@ -34,7 +33,6 @@ $this =
   	xhr.open 'GET', urlBackend, true
   	xhr.setRequestHeader 'Content-type', 'application/json', true
   	xhr.send null
-
   	xhr.onload = (e) ->
   		if xhr.readyState == 4
   			if xhr.status == 200
@@ -49,22 +47,6 @@ $this =
   		return
 
   	return result
-    # hr = new XMLHttpRequest
-    # hr.open 'GET', urlBackend, true
-    # hr.setRequestHeader 'Content-type', 'application/json', true
-    # hr.send null
-    # count = 0
-    # hr.onreadystatechange = ->
-    #   if hr.status == 200
-    #     data = JSON.parse(hr.responseText)
-    #     for i in data.objects
-    #     	if url == i.url
-    #     		count++
-    #     		console.log count
-    #     	else
-    #     		count = 0
-    #   return
-    # return count
 
   newComment: (url, name, email, comment, callback, errback) ->
     # console.log('Popup 3')
