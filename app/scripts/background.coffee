@@ -13,5 +13,3 @@ chrome.tabs.onActivated.addListener (activeInfo)->
       	Backend.getCount(url.host)
       else
         chrome.browserAction.setBadgeText({text: ""})
-
-	

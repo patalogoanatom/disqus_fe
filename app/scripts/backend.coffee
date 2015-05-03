@@ -11,20 +11,23 @@ $this =
     hr.open 'GET', urlBackend, true
     hr.setRequestHeader 'Content-type', 'application/json', true
     count = 0
+    comment = ''
 
     hr.onreadystatechange = ->
       if hr.readyState == 4 and hr.status == 200
         data = JSON.parse(hr.responseText)
         for i in data.objects
-        	if i.url == url
+        	console.log url + ' ' + i.url
+        	if url == i.url
         		count++
 	        	gravatar = '<img style="border: solid white 1px;border-radius: 50%;width:30px;height:30px; margin:0 8px 7px 0" src="https://s.gravatar.com/avatar/' + hex_md5(i.email) + '?s=80">'
-	        	comment = '<p>' + gravatar
+	        	comment += '<p>' + gravatar
 	        	comment += '<span style="font-style: bold; font-size: 20px;">' + i.author + '</span>'
 	        	comment += '<span style="text-align:right; float: right;">' + i.pub_date.substring(0, 10) + '</span></p><div style = "clear:both;"></div>'
 	        	comment += '<p style="font-style: italic;">' + i.text + '</p>'
-	        	$('#comments').append comment
-        $('#amount_comments').append count+' comments'
+
+        $('#comments').html comment
+        $('#amount_comments').html count+' comments'
       return
 
     hr.send null
@@ -43,20 +46,17 @@ $this =
   					if url == i.url
   						count++
   				chrome.browserAction.setBadgeText({text: '' + count})
-  				console.log 'Real ' + result
   			else
   				console.error xhr.statusText
   		return
 
-  newComment: (url, name, email, comment, callback, errback) ->
+  newComment: (url, author, email, text, callback, errback) ->
     xhr = new XMLHttpRequest
-    json = JSON.stringify
-    (
+    json = JSON.stringify(
       url: url
-      name: name
+      author: author
       email: email
-      comment: comment
-    )
+      text: text)
 
     xhr.open 'POST', urlBackend, true
     xhr.setRequestHeader 'Content-type', 'application/json; charset=utf-8'
@@ -64,10 +64,10 @@ $this =
     xhr.onreadystatechange = ->
       if @readyState != 4
         return
-      alert @responseText
       return
 
     console.log json
     xhr.send json
+    Backend.getComments url
 
 module.Backend = $this

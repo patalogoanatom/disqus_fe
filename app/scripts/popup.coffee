@@ -54,6 +54,7 @@ $('#inputComment').on 'keyup', (e) ->
 			}, (tab) ->
 				saveInfo getHostName(tab[0].url).host
 				Backend.newComment(getHostName(tab[0].url).host, $('#inputName').val(), $('#inputEmail').val(), $('#inputComment').val())
+				$('#inputComment').val("")
 				return    
   	return
 
