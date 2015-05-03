@@ -3,6 +3,7 @@
 # this script is supposed to have backend related code
 
 module = exports ? this
+
 urlBackend = 'http://localhost:8000/api/v1/comment/'
 
 $this =
@@ -26,7 +27,23 @@ $this =
     hr.send null
 
   getCount: (url, callback, errback)->
-    console.log('Popup 2')
+    hr = new XMLHttpRequest
+    hr.open 'GET', urlBackend, true
+    hr.setRequestHeader 'Content-type', 'application/json', true
+    count = 0
+    hr.onreadystatechange = ->
+      if hr.readyState == 4 and hr.status == 200
+        data = JSON.parse(hr.responseText)
+        for i in data.objects
+        	if url == i.url
+        		count++
+        		console.log count
+        	else
+        		count = 0
+      return
+    hr.send null
+    return "asdsadasad"
+
   newComment: (url, name, email, comment, callback, errback) ->
     # console.log('Popup 3')
 

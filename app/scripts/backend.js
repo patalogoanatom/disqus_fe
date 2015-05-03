@@ -31,7 +31,29 @@
       return hr.send(null);
     },
     getCount: function(url, callback, errback) {
-      return console.log('Popup 2');
+      var count, hr;
+      hr = new XMLHttpRequest;
+      hr.open('GET', urlBackend, true);
+      hr.setRequestHeader('Content-type', 'application/json', true);
+      count = 0;
+      hr.onreadystatechange = function() {
+        var data, i, _i, _len, _ref;
+        if (hr.readyState === 4 && hr.status === 200) {
+          data = JSON.parse(hr.responseText);
+          _ref = data.objects;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            i = _ref[_i];
+            if (url === i.url) {
+              count++;
+              console.log(count);
+            } else {
+              count = 0;
+            }
+          }
+        }
+      };
+      hr.send(null);
+      return "asdsadasad";
     },
     newComment: function(url, name, email, comment, callback, errback) {}
   };

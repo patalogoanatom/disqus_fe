@@ -5,13 +5,16 @@
   });
 
   chrome.tabs.onActivated.addListener(function(activeInfo) {
-    console.log("Select " + activeInfo.tabId + " ");
     return chrome.tabs.get(activeInfo.tabId, function(tab) {
       var url;
       if (tab.url) {
         url = new URL(tab.url);
         if (url.protocol === 'https:' || url.protocol === 'http:') {
-          return console.log(url.hostname);
+          console.log(url.host);
+          console.log('Count: ' + Backend.getCount(url.host));
+          return chrome.browserAction.setBadgeText({
+            text: '' + Backend.getCount(url.host)
+          });
         } else {
           return chrome.browserAction.setBadgeText({
             text: ""
