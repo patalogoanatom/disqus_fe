@@ -15,6 +15,37 @@
   </head>
   <body>
 
+   <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Enter your info</h3>
+    </div>
+    <div class="panel-body">
+      <div class="col-lg-10">
+          <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+      </div>
+      <div class="col-lg-10">
+          <input type="text" class="form-control" id="inputName" placeholder="Name">
+      </div>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+      <div class="panel-heading">
+          <h3 class="panel-title">Enter comments</h3>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">0 comments</div>
+        <div id="comments" class="panel-body">
+            
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="col-lg-10">
+            <input type="text" class="form-control" id="inputComment" placeholder="Comment">
+        </div>
+      </div>
+  </div>
 
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
@@ -23,9 +54,10 @@
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/bootstrap-material-design/dist/js/material.js"></script>
   <script src="bower_components/bootstrap-material-design/dist/js/ripples.js"></script>
+  <script src="scripts/backend.js"></script>
+  <script src="scripts/md5-min.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
-
   <!-- build:js scripts/popup.js -->
   <script src="scripts/popup.js"></script>
   <!-- endbuild -->
