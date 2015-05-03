@@ -6,6 +6,11 @@ validateEmail = (email) ->
   re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
   re.test email
 
+getHostName = (href) ->
+	l = document.createElement('a')
+	l.href = href
+	l
+
 if $('#inputEmail').val() == '' || $('#inputEmail').val() == null && $('#inputName').val() == '' || $('#inputName').val() == null
 	$( "#inputComment" ).attr( "disabled", "" );
 
@@ -26,4 +31,9 @@ $('#inputComment').on 'keyup', (e) ->
     alert 'some string'
   return
 
-getComments = Backend.getComments('google.com')
+chrome.tabs.query {
+  active: true
+  currentWindow: true
+}, (tab) ->
+  Backend.getComments(getHostName(tab[0].url).host)
+  return

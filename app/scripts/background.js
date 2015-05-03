@@ -6,14 +6,14 @@
 
   chrome.tabs.onActivated.addListener(function(activeInfo) {
     return chrome.tabs.get(activeInfo.tabId, function(tab) {
-      var url;
+      var result, url;
       if (tab.url) {
         url = new URL(tab.url);
+        result = Backend.getCount(url.host);
         if (url.protocol === 'https:' || url.protocol === 'http:') {
-          console.log(url.host);
-          console.log('Count: ' + Backend.getCount(url.host));
+          console.log('Gained ' + result);
           return chrome.browserAction.setBadgeText({
-            text: '' + Backend.getCount(url.host)
+            text: '' + result
           });
         } else {
           return chrome.browserAction.setBadgeText({

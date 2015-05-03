@@ -26,15 +26,13 @@ chrome.runtime.onInstalled.addListener (details) ->
 
 chrome.tabs.onActivated.addListener (activeInfo)->
   chrome.tabs.get activeInfo.tabId, (tab) ->
-    
     if tab.url
-    
       url = new URL(tab.url)
-    
+      result = Backend.getCount(url.host)
       if url.protocol == 'https:' || url.protocol == 'http:'
-      	console.log url.host
-      	console.log 'Count: ' + Backend.getCount(url.host)
-      	chrome.browserAction.setBadgeText({text: '' + Backend.getCount(url.host)})
-    	
+      	console.log 'Gained '+result
+      	chrome.browserAction.setBadgeText({text: '' + result})    	
       else
         chrome.browserAction.setBadgeText({text: ""})
+
+	
